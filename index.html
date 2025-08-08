@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Trading Dashboard</title>
+    
+    <!-- Semantic UI CSS -->
+    <link rel="stylesheet" href="semantic/semantic.min.css">
+    
+    <!-- Custom styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .main-container {
+            padding: 2rem;
+        }
+        
+        .crypto-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .price-positive {
+            color: #21ba45 !important;
+        }
+        
+        .price-negative {
+            color: #db2828 !important;
+        }
+        
+        .trading-panel {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="ui container main-container">
+        <!-- Header -->
+        <div class="ui huge header" style="color: white; text-align: center; margin-bottom: 2rem;">
+            <i class="bitcoin icon"></i>
+            Crypto Trading Dashboard
+        </div>
+        
+        <!-- Market Overview Cards -->
+        <div class="ui four stackable cards">
+            <div class="card crypto-card">
+                <div class="content">
+                    <div class="header">Bitcoin (BTC)</div>
+                    <div class="meta">
+                        <span class="ui large text price-positive">$43,250.00</span>
+                    </div>
+                    <div class="description">
+                        <span class="ui green label">+2.5%</span> 24h change
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card crypto-card">
+                <div class="content">
+                    <div class="header">Ethereum (ETH)</div>
+                    <div class="meta">
+                        <span class="ui large text price-positive">$2,680.00</span>
+                    </div>
+                    <div class="description">
+                        <span class="ui green label">+1.8%</span> 24h change
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card crypto-card">
+                <div class="content">
+                    <div class="header">Cardano (ADA)</div>
+                    <div class="meta">
+                        <span class="ui large text price-negative">$0.52</span>
+                    </div>
+                    <div class="description">
+                        <span class="ui red label">-0.8%</span> 24h change
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card crypto-card">
+                <div class="content">
+                    <div class="header">Solana (SOL)</div>
+                    <div class="meta">
+                        <span class="ui large text price-positive">$98.50</span>
+                    </div>
+                    <div class="description">
+                        <span class="ui green label">+4.2%</span> 24h change
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Trading Interface -->
+        <div class="ui stackable grid" style="margin-top: 2rem;">
+            <!-- Chart Section -->
+            <div class="ten wide column">
+                <div class="trading-panel">
+                    <h3 class="ui header">
+                        <i class="chart line icon"></i>
+                        Price Chart
+                    </h3>
+                    <div style="height: 500px; position: relative;">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                    <small>Real-time market data visualization</small>
+                </div>
+            </div>
+            
+            <!-- Trading Panel -->
+            <div class="six wide column">
+                <div class="trading-panel">
+                    <h3 class="ui header">
+                        <i class="exchange icon"></i>
+                        Quick Trade
+                    </h3>
+                    
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Select Cryptocurrency</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="crypto">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">Choose cryptocurrency</div>
+                                <div class="menu">
+                                    <div class="item" data-value="btc">
+                                        <i class="bitcoin icon"></i>
+                                        Bitcoin (BTC)
+                                    </div>
+                                    <div class="item" data-value="eth">
+                                        <i class="ethereum icon"></i>
+                                        Ethereum (ETH)
+                                    </div>
+                                    <div class="item" data-value="ada">
+                                        <i class="circle icon"></i>
+                                        Cardano (ADA)
+                                    </div>
+                                    <div class="item" data-value="sol">
+                                        <i class="circle icon"></i>
+                                        Solana (SOL)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Amount</label>
+                                <input type="number" placeholder="0.00" step="0.01">
+                            </div>
+                            <div class="field">
+                                <label>Price</label>
+                                <input type="number" placeholder="Market Price" step="0.01">
+                            </div>
+                        </div>
+                        
+                        <div class="ui two buttons">
+                            <div class="ui green button">
+                                <i class="arrow up icon"></i>
+                                Buy
+                            </div>
+                            <div class="ui red button">
+                                <i class="arrow down icon"></i>
+                                Sell
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Summary -->
+                <div class="trading-panel">
+                    <h3 class="ui header">
+                        <i class="wallet icon"></i>
+                        Portfolio
+                    </h3>
+                    
+                    <div class="ui relaxed divided list">
+                        <div class="item">
+                            <i class="bitcoin large icon"></i>
+                            <div class="content">
+                                <div class="header">0.5 BTC</div>
+                                <div class="description">$21,625.00</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="ethereum large icon"></i>
+                            <div class="content">
+                                <div class="header">2.3 ETH</div>
+                                <div class="description">$6,164.00</div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="dollar large icon"></i>
+                            <div class="content">
+                                <div class="header">Cash</div>
+                                <div class="description">$5,250.00</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ui statistic">
+                        <div class="value">$33,039</div>
+                        <div class="label">Total Portfolio Value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Transactions -->
+        <div class="trading-panel" style="margin-top: 2rem;">
+            <h3 class="ui header">
+                <i class="history icon"></i>
+                Recent Transactions
+            </h3>
+            
+            <table class="ui celled striped table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Asset</th>
+                        <th>Amount</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2024-01-15 14:30</td>
+                        <td><span class="ui green label">Buy</span></td>
+                        <td><i class="bitcoin icon"></i> BTC</td>
+                        <td>0.1</td>
+                        <td>$43,200.00</td>
+                        <td><span class="ui green label">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2024-01-15 12:15</td>
+                        <td><span class="ui red label">Sell</span></td>
+                        <td><i class="ethereum icon"></i> ETH</td>
+                        <td>0.5</td>
+                        <td>$2,675.00</td>
+                        <td><span class="ui green label">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>2024-01-14 16:45</td>
+                        <td><span class="ui green label">Buy</span></td>
+                        <td><i class="circle icon"></i> ADA</td>
+                        <td>1000</td>
+                        <td>$0.51</td>
+                        <td><span class="ui yellow label">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Semantic UI JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="semantic/semantic.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        let priceChart;
+        let chartData = {
+            labels: [],
+            datasets: [{
+                label: 'Bitcoin (BTC)',
+                data: [],
+                borderColor: '#f7931a',
+                backgroundColor: 'rgba(247, 147, 26, 0.1)',
+                tension: 0.4,
+                fill: false
+            }, {
+                label: 'Ethereum (ETH)',
+                data: [],
+                borderColor: '#627eea',
+                backgroundColor: 'rgba(98, 126, 234, 0.1)',
+                tension: 0.4,
+                fill: false
+            }, {
+                label: 'Cardano (ADA)',
+                data: [],
+                borderColor: '#0033ad',
+                backgroundColor: 'rgba(0, 51, 173, 0.1)',
+                tension: 0.4,
+                fill: false
+            }]
+        };
+
+        // CoinGecko API configuration
+        const COINGECKO_API = 'https://api.coingecko.com/api/v3';
+        const COIN_IDS = ['bitcoin', 'ethereum', 'cardano'];
+        const COIN_SYMBOLS = ['BTC', 'ETH', 'ADA'];
+        
+        // Store current prices and cache data
+        let currentPrices = {
+            bitcoin: 0,
+            ethereum: 0,
+            cardano: 0
+        };
+        
+        let lastApiCall = 0;
+        let cachedPriceData = null;
+        const API_CACHE_DURATION = 30000; // Cache for 30 seconds
+
+        // Fetch current prices from CoinGecko API with caching
+        async function fetchCurrentPrices() {
+            const now = Date.now();
+            
+            // Return cached data if it's still fresh
+            if (cachedPriceData && (now - lastApiCall) < API_CACHE_DURATION) {
+                console.log('Using cached price data');
+                return cachedPriceData;
+            }
+            
+            console.log('Fetching fresh data from CoinGecko API...');
+            try {
+                const apiUrl = `${COINGECKO_API}/simple/price?ids=${COIN_IDS.join(',')}&vs_currencies=usd&include_24hr_change=true`;
+                console.log('API URL:', apiUrl);
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                console.log('Raw API response:', data);
+                
+                // Update current prices
+                currentPrices = {
+                    bitcoin: data.bitcoin?.usd || 0,
+                    ethereum: data.ethereum?.usd || 0,
+                    cardano: data.cardano?.usd || 0
+                };
+                
+                // Cache the data
+                cachedPriceData = data;
+                lastApiCall = now;
+                
+                return data;
+            } catch (error) {
+                console.error('Error fetching prices:', error);
+                // Return cached data if available, even if stale
+                return cachedPriceData;
+            }
+        }
+
+        // Generate simulated 24-hour trends that end at current API prices
+        async function generateSimulatedTrends() {
+            try {
+                console.log('Generating simulated 24-hour trends...');
+                
+                // Get current prices from API
+                const currentPriceData = await fetchCurrentPrices();
+                if (!currentPriceData) {
+                    console.log('Could not fetch current prices, using fallback values');
+                }
+                
+                const currentPrices = {
+                    bitcoin: currentPriceData?.bitcoin?.usd || 116000,
+                    ethereum: currentPriceData?.ethereum?.usd || 3900,
+                    cardano: currentPriceData?.cardano?.usd || 0.80
+                };
+                
+                const current24hChanges = {
+                    bitcoin: currentPriceData?.bitcoin?.usd_24h_change || 1.8,
+                    ethereum: currentPriceData?.ethereum?.usd_24h_change || 6.0,
+                    cardano: currentPriceData?.cardano?.usd_24h_change || 7.4
+                };
+                
+                console.log('Current prices for simulation:', currentPrices);
+                console.log('Current 24h changes:', current24hChanges);
+                
+                // Clear existing data
+                chartData.labels = [];
+                chartData.datasets.forEach(dataset => dataset.data = []);
+                
+                // Generate 24 hours of data (hourly points)
+                const hoursBack = 24;
+                const now = new Date();
+                
+                for (let i = hoursBack - 1; i >= 0; i--) {
+                    const time = new Date(now.getTime() - i * 60 * 60 * 1000);
+                    const timeLabel = time.toLocaleTimeString('en-US', { 
+                        hour12: false, 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+                    
+                    chartData.labels.push(timeLabel);
+                    
+                    // Calculate progress through the day (0 to 1)
+                    const progress = (hoursBack - 1 - i) / (hoursBack - 1);
+                    
+                    // Generate realistic price movements for each coin
+                    const coins = [
+                        { key: 'bitcoin', current: currentPrices.bitcoin, volatility: 0.03 },
+                        { key: 'ethereum', current: currentPrices.ethereum, volatility: 0.04 },
+                        { key: 'cardano', current: currentPrices.cardano, volatility: 0.06 }
+                    ];
+                    
+                    coins.forEach((coin, coinIndex) => {
+                        // Generate realistic percentage change for this time point
+                        let percentageChange = 0;
+                        
+                        // Get the target 24h change for this coin
+                        const target24hChange = current24hChanges[coin.key] || 0;
+                        
+                        // Create realistic intraday movements that trend toward the final 24h change
+                        const timeOfDay = (hoursBack - 1 - i) / hoursBack;
+                        const marketActivity = Math.sin(timeOfDay * Math.PI * 2) * 0.5 + 0.5;
+                        
+                        // Base the movement on progress through the day
+                        const baseChange = target24hChange * progress;
+                        
+                        // Add realistic volatility
+                        const volatilityRange = coin.volatility * 100; // Convert to percentage points
+                        const noise = (Math.random() - 0.5) * volatilityRange * marketActivity;
+                        
+                        // Combine base trend with noise
+                        percentageChange = baseChange + noise;
+                        
+                        // Add some realistic market patterns
+                        if (i > hoursBack * 0.8) {
+                            // Last 20% of time: converge to actual 24h change
+                            const convergeFactor = (hoursBack - i) / (hoursBack * 0.2);
+                            percentageChange = percentageChange * (1 - convergeFactor) + target24hChange * convergeFactor;
+                        }
+                        
+                        // Ensure we end exactly at the actual 24h change
+                        if (i === 0) {
+                            percentageChange = target24hChange;
+                        }
+                        
+                        // Clamp to reasonable range
+                        percentageChange = Math.max(-20, Math.min(20, percentageChange));
+                        
+                        chartData.datasets[coinIndex].data.push(percentageChange);
+                        
+                        // Debug log for first few data points
+                        if (coinIndex === 0 && i >= hoursBack - 3) {
+                            console.log(`Hour ${hoursBack - i}: ${coin.key} = ${percentageChange.toFixed(2)}%`);
+                        }
+                    });
+                }
+                
+                console.log('Generated simulated trends with', chartData.labels.length, 'data points');
+                
+                if (priceChart) {
+                    priceChart.update('none');
+                }
+                
+            } catch (error) {
+                console.error('Error generating simulated trends:', error);
+            }
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            priceChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: 'white',
+                            bodyColor: 'white',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const change = context.parsed.y;
+                                    const sign = change >= 0 ? '+' : '';
+                                    return context.dataset.label + ': ' + sign + change.toFixed(2) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Time (Last 24 Hours)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Percentage Change (%)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 2,
+                            hoverRadius: 5
+                        }
+                    }
+                }
+            });
+
+            // Generate simulated trends
+            generateSimulatedTrends();
+        }
+
+        async function updateChart() {
+            try {
+                const priceData = await fetchCurrentPrices();
+                if (!priceData) return;
+                
+                const now = new Date();
+                const timeLabel = now.toLocaleTimeString('en-US', { 
+                    hour12: false, 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                
+                // Add new data point
+                chartData.labels.push(timeLabel);
+                
+                // Add current 24h percentage changes to chart
+                chartData.datasets[0].data.push(priceData.bitcoin?.usd_24h_change || 0);
+                chartData.datasets[1].data.push(priceData.ethereum?.usd_24h_change || 0);
+                chartData.datasets[2].data.push(priceData.cardano?.usd_24h_change || 0);
+                
+                // Keep only last 30 data points for real-time view
+                if (chartData.labels.length > 30) {
+                    chartData.labels.shift();
+                    chartData.datasets.forEach(dataset => dataset.data.shift());
+                }
+                
+                priceChart.update('none');
+            } catch (error) {
+                console.error('Error updating chart:', error);
+            }
+        }
+
+        $(document).ready(function() {
+            // Initialize dropdown
+            $('.ui.dropdown').dropdown();
+            
+            // Initialize the price chart
+            initChart();
+            
+            // Load initial prices immediately
+            updatePrices();
+            
+            // Update price cards with real API data
+            async function updatePrices() {
+                console.log('Updating prices with API data...');
+                try {
+                    const priceData = await fetchCurrentPrices();
+                    if (!priceData) {
+                        console.log('No price data received from API');
+                        return;
+                    }
+                    
+                    console.log('API Response:', priceData);
+                    
+                    const cards = document.querySelectorAll('.crypto-card');
+                    const coinData = [
+                        { key: 'bitcoin', data: priceData.bitcoin },
+                        { key: 'ethereum', data: priceData.ethereum },
+                        { key: 'cardano', data: priceData.cardano }
+                    ];
+                    
+                    console.log('Coin data to display:', coinData);
+                    
+                    cards.forEach((card, index) => {
+                        const priceElement = card.querySelector('.ui.large.text');
+                        const changeElement = card.querySelector('.ui.label');
+                        
+                        if (priceElement && changeElement && coinData[index]) {
+                            const coin = coinData[index];
+                            const price = coin.data?.usd || 0;
+                            const change24h = coin.data?.usd_24h_change || 0;
+                            
+                            // Update price display
+                            priceElement.textContent = '$' + price.toLocaleString('en-US', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: coin.key === 'cardano' ? 4 : 2
+                            });
+                            
+                            // Update change indicator with real 24h change
+                            const changePercent = change24h.toFixed(1);
+                            if (change24h > 0) {
+                                changeElement.className = 'ui green label';
+                                changeElement.textContent = '+' + changePercent + '%';
+                                priceElement.className = 'ui large text price-positive';
+                            } else {
+                                changeElement.className = 'ui red label';
+                                changeElement.textContent = changePercent + '%';
+                                priceElement.className = 'ui large text price-negative';
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error updating prices:', error);
+                }
+            }
+            
+            // Update prices every 30 seconds (matches API cache duration)
+            setInterval(updatePrices, 30000);
+            
+            // Update chart every 60 seconds
+            setInterval(updateChart, 60000);
+            
+            // Add click handlers for buy/sell buttons
+            $('.ui.green.button').click(function() {
+                $(this).addClass('loading');
+                setTimeout(() => {
+                    $(this).removeClass('loading');
+                    // Show success message
+                    $('body').toast({
+                        title: 'Order Placed',
+                        message: 'Your buy order has been placed successfully!',
+                        class: 'success',
+                        displayTime: 3000
+                    });
+                }, 1000);
+            });
+            
+            $('.ui.red.button').click(function() {
+                $(this).addClass('loading');
+                setTimeout(() => {
+                    $(this).removeClass('loading');
+                    // Show success message
+                    $('body').toast({
+                        title: 'Order Placed',
+                        message: 'Your sell order has been placed successfully!',
+                        class: 'success',
+                        displayTime: 3000
+                    });
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
