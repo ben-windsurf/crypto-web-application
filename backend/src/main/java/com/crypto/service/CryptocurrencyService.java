@@ -20,19 +20,19 @@ public class CryptocurrencyService {
     private final Random random = new Random();
     
     // Mock current prices - simulating real market data
-    private final Map<String, BigDecimal> basePrices = new HashMap<String, BigDecimal>() {{
-        put("bitcoin", new BigDecimal("43250.00"));
-        put("ethereum", new BigDecimal("2680.00"));
-        put("cardano", new BigDecimal("0.52"));
-        put("solana", new BigDecimal("98.50"));
-    }};
+    private final Map<String, BigDecimal> basePrices = Map.of(
+        "bitcoin", new BigDecimal("43250.00"),
+        "ethereum", new BigDecimal("2680.00"),
+        "cardano", new BigDecimal("0.52"),
+        "solana", new BigDecimal("98.50")
+    );
     
-    private final Map<String, String> coinNames = new HashMap<String, String>() {{
-        put("bitcoin", "Bitcoin");
-        put("ethereum", "Ethereum");
-        put("cardano", "Cardano");
-        put("solana", "Solana");
-    }};
+    private final Map<String, String> coinNames = Map.of(
+        "bitcoin", "Bitcoin",
+        "ethereum", "Ethereum",
+        "cardano", "Cardano",
+        "solana", "Solana"
+    );
     
     public Map<String, CryptoPriceResponse> getCurrentPrices() {
         Map<String, CryptoPriceResponse> prices = new HashMap<>();
