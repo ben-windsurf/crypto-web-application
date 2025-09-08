@@ -26,6 +26,14 @@ This repository hosts a comprehensive web application tailored for cryptocurrenc
 - **Tempus Dominus:** Advanced date-time picker integrated into the platform.
 - **Toastr.js:** Elegant notification system for user alerts and messages.
 
+### Backend Technologies:
+
+- **Java 17:** Modern Java runtime for enhanced performance and security
+- **Spring Boot 2.1.18.RELEASE:** Framework for building production-ready applications
+- **Maven:** Build automation and dependency management
+- **H2 Database:** In-memory database for development and testing
+- **Spring Data JPA:** Data persistence and repository abstraction
+
 ## Setup and Installation
 
 To run this project locally:
@@ -40,7 +48,21 @@ To run this project locally:
     cd crypto-web-application
     ```
 
-3. **Launch the application** by opening `index.html` from the `ai-trader` folder in your preferred browser:
+3. **Backend Setup (Optional):**
+    The application includes a Spring Boot backend that provides REST APIs for cryptocurrency data.
+    
+    **Prerequisites:**
+    - Java 17 or higher
+    - Maven 3.6+
+    
+    **To run the backend:**
+    ```bash
+    cd backend
+    mvn spring-boot:run
+    ```
+    The backend server will start on `http://localhost:8080` with APIs available at `/api/v3/`.
+
+4. **Launch the frontend** by opening `index.html` from the `ai-trader` folder in your preferred browser:
     ```bash
     open ai-trader/index.html
     ```
@@ -58,11 +80,21 @@ The platform provides users with the following functionalities:
 
 The project is organized into distinct directories:
 
+- **`/ai-trader`**: Main application entry point with the complete trading dashboard.
+- **`/backend`**: Spring Boot backend application providing REST APIs for cryptocurrency data.
 - **`/plugins`**: External libraries and third-party assets.
 - **`/semantic`**: Semantic UI assets including stylesheets, JavaScript, and themes.
 - **`/spectrum`**: Resources for advanced color picking and customization.
 - **`/web-trader`**: Core files for the trading interface.
 - **`/widget`**: Configurations and assets for additional widgets.
+
+## Recent Updates
+
+### Java 17 Migration (December 2024)
+- **Backend upgraded to Java 17** from Java 8 for improved performance and security
+- Updated Maven configuration with Java 17 compiler settings
+- Maintained compatibility with Spring Boot 2.1.18.RELEASE
+- This is the first step in a multi-phase migration to modernize the backend infrastructure
 
 ## License
 
