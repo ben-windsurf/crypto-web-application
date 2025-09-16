@@ -37,7 +37,6 @@
     "url": "https://github.com/benlehrburger/crypto-web-application/issues"
   },
   "dependencies": {
-    "@demo/hello-local": "1.0.0",
     "chart.js": "^4.4.0",
     "jquery": "^3.6.0"
   },
