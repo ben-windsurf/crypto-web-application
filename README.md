@@ -14,6 +14,14 @@ This repository hosts a comprehensive web application tailored for cryptocurrenc
 
 ## Technology Stack
 
+### Backend Technologies:
+
+- **Java 17** with Spring Boot 2.7.18
+- **Spring Data JPA** for database operations
+- **H2 Database** (in-memory) for development
+- **Maven** for dependency management
+- **RESTful APIs** for frontend communication
+
 ### Core Frontend Technologies:
 
 - **HTML5**, **CSS3**, **JavaScript** for the structure, styling, and interactivity.
@@ -28,11 +36,15 @@ This repository hosts a comprehensive web application tailored for cryptocurrenc
 
 ## Setup and Installation
 
-To run this project locally:
+### Prerequisites
+- **Java 17** or higher
+- Maven 3.6+
+- Modern web browser
 
+### Backend Setup
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/zuhairdadi/crypto-web-application.git
+    git clone https://github.com/ben-windsurf/crypto-web-application.git
     ```
 
 2. **Navigate to the project directory:**
@@ -40,11 +52,29 @@ To run this project locally:
     cd crypto-web-application
     ```
 
-3. **Launch the application** by opening `index.html` from the `ai-trader` folder in your preferred browser:
+3. **Start the backend API server:**
     ```bash
-    open ai-trader/index.html
+    cd backend
+    mvn spring-boot:run
     ```
-    Or, simply drag the `index.html` file from the `ai-trader` folder into your browser window.
+    The backend API will be available at `http://localhost:8080`
+
+### Frontend Setup
+1. **Launch the application** by opening `index.html` in your preferred browser:
+    ```bash
+    open index.html
+    ```
+    Or, simply drag the `index.html` file into your browser window.
+
+2. **Alternative: Use a local development server:**
+    ```bash
+    # Using Python
+    python -m http.server 8000
+    
+    # Using Node.js (if you have http-server installed)
+    npx http-server
+    ```
+    Then access the application at `http://localhost:8000`
 
 ## Usage Instructions
 
@@ -54,10 +84,69 @@ The platform provides users with the following functionalities:
 - **Portfolio Management:** Access tools to analyze holdings and strategize trades.
 - **Customizable Settings:** Personalize the UI with language preferences, color themes, and widget placements.
 
+## Recent Updates
+
+### Java 17 Migration (September 2024)
+The backend has been successfully migrated from Java 8 to Java 17, providing:
+- **Performance Improvements**: Enhanced garbage collection with G1GC
+- **Security Enhancements**: Latest security patches and improvements
+- **Modern Language Features**: Access to Java 9-17 language improvements
+- **Long-term Support**: Java 17 LTS ensures extended support lifecycle
+
+**Migration Details:**
+- Upgraded from Java 8 to Java 17
+- Updated Spring Boot from 2.1.18.RELEASE to 2.7.18 (conservative approach maintaining `javax.*` imports)
+- Updated Maven plugins: `maven-compiler-plugin` 3.11.0, `maven-surefire-plugin` 3.0.0
+- All tests pass and application functionality verified
+- No breaking changes to existing APIs or functionality
+
+## API Endpoints
+
+### Trades
+- `GET /api/trades` - Get all trades
+- `POST /api/trades` - Create a new trade
+- `GET /api/trades/recent` - Get recent trades
+- `GET /api/trades/{id}` - Get trade by ID
+- `GET /api/trades/symbol/{symbol}` - Get trades by cryptocurrency symbol
+
+### Cryptocurrencies
+- `GET /api/v3/cryptocurrencies` - Get all cryptocurrencies
+- `GET /api/v3/simple/price` - Get current prices (CoinGecko API format)
+- `GET /api/v3/price/{symbol}` - Get price by symbol
+
+### Portfolio
+- `GET /api/portfolio` - Get portfolio holdings
+
+### Dashboard
+- `GET /api/dashboard/overview` - Get dashboard overview with recent trades, portfolio, and prices
+
+## Database
+
+The application uses H2 in-memory database for development. You can access the H2 console at:
+- URL: `http://localhost:8080/h2-console`
+- JDBC URL: `jdbc:h2:mem:cryptodb`
+- Username: `sa`
+- Password: (empty)
+
+## Development
+
+### Running Tests
+```bash
+cd backend
+mvn test
+```
+
+### Building for Production
+```bash
+cd backend
+mvn clean package
+```
+
 ## Project Structure
 
 The project is organized into distinct directories:
 
+- **`/backend`**: Spring Boot backend application with Java 17
 - **`/plugins`**: External libraries and third-party assets.
 - **`/semantic`**: Semantic UI assets including stylesheets, JavaScript, and themes.
 - **`/spectrum`**: Resources for advanced color picking and customization.
