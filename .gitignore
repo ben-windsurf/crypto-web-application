@@ -1,3 +1,21 @@
+# Maven
+backend/target/
+*.jar
+*.war
+*.ear
+*.class
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
 
 # Playwright
 node_modules/
