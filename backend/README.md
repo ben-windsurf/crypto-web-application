@@ -1,6 +1,6 @@
 # Crypto Trading Backend
 
-A Java 8 Spring Boot mock backend for the crypto trading dashboard application.
+A Java 21 Spring Boot mock backend for the crypto trading dashboard application.
 
 ## Features
 
@@ -36,7 +36,7 @@ A Java 8 Spring Boot mock backend for the crypto trading dashboard application.
 ## Quick Start
 
 ### Prerequisites
-- Java 8 or higher
+- Java 21 or higher
 - Maven 3.6+
 
 ### Running the Application
