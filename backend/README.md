@@ -79,18 +79,64 @@ curl http://localhost:8080/api/portfolio
 
 ## Database
 
-The application uses H2 in-memory database for development. You can access the H2 console at:
-- URL: `http://localhost:8080/h2-console`
+The application uses H2 in-memory database for development. Data is reset on each restart.
+
+**Note:** H2 console access is now profile-specific (see Security section below).
+
+## Security
+
+**⚠️ IMPORTANT**: This application now requires proper security configuration before deployment.
+
+See [SECURITY.md](SECURITY.md) for detailed security configuration instructions.
+
+### Quick Start for Development
+
+```bash
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+The H2 console will be available at `http://localhost:8080/h2-console` (dev profile only):
 - JDBC URL: `jdbc:h2:mem:cryptodb`
 - Username: `sa`
-- Password: (empty)
+- Password: (empty in dev profile)
+
+### Production Deployment
+
+```bash
+export JWT_SECRET="your-production-secret-key-at-least-32-characters-long"
+export DB_PASSWORD="your-strong-database-password"
+export CORS_ALLOWED_ORIGINS="https://yourdomain.com"
+
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
+```
+
+See `.env.example` for all available environment variables.
+
+### Security Features
+
+- **JWT Authentication**: Protected API endpoints require Bearer token
+- **CORS Protection**: Restricted to configured origins only
+- **Rate Limiting**: 100 requests per minute per IP
+- **Security Headers**: X-Frame-Options, HSTS, X-Content-Type-Options
+- **Input Validation**: Cryptocurrency symbol whitelist
+- **H2 Console**: Disabled in production
+
+### Public Endpoints (No Authentication Required)
+
+- `GET /api/v3/simple/price/**` - Cryptocurrency prices
+- `GET /api/v3/price/**` - Price by symbol
+- `GET /api/v3/cryptocurrencies` - List cryptocurrencies
+- `GET /api/dashboard/overview` - Dashboard data
+
+All other `/api/**` endpoints require JWT authentication.
 
 ## Configuration
 
 Key configuration options in `application.properties`:
 - Server port: `server.port=8080`
 - Database URL: `spring.datasource.url=jdbc:h2:mem:cryptodb`
-- CORS: Enabled for all origins on `/api/**` endpoints
+- CORS: Configured via `cors.allowed.origins` environment variable
+- JWT: Configured via `jwt.secret` environment variable
 
 ## Mock Data
 

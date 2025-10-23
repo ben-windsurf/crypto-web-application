@@ -12,7 +12,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v3")
-@CrossOrigin(origins = "*")
 public class CryptocurrencyController {
     
     @Autowired
