@@ -1,15 +1,19 @@
 package com.crypto.dto;
 
 import com.crypto.model.Trade;
+import com.crypto.validation.ValidCryptoSymbol;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public class TradeRequest {
     
     @NotBlank(message = "Symbol is required")
+    @Size(max = 20, message = "Symbol must not exceed 20 characters")
+    @ValidCryptoSymbol
     private String symbol;
     
     @NotNull(message = "Trade type is required")
