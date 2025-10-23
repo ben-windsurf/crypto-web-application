@@ -9,6 +9,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:e2e": "npx playwright test --ui",
+    "test:e2e:headed": "npx playwright test --headed",
+    "test:e2e:debug": "npx playwright test --debug",
+    "test:e2e:report": "npx playwright show-report",
+    "test:all": "npm run test && npm run test:e2e:headed",
     "lint": "eslint *.js",
     "lint:fix": "eslint *.js --fix",
     "build": "npm run lint && npm run test",
@@ -41,6 +46,7 @@
     "jquery": "^3.6.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@types/jest": "^29.5.5",
     "eslint": "^8.50.0",
     "http-server": "^14.1.1",
@@ -69,7 +75,8 @@
       "browser": true,
       "es2021": true,
       "jquery": true,
-      "jest": true
+      "jest": true,
+      "node": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
